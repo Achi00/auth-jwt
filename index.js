@@ -6,10 +6,17 @@ const pool = require("./db");
 const crypto = require("crypto");
 const transporter = require("./mailer");
 const path = require("path");
+const cors = require("cors");
 
 const app = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
 
 let refreshTokens = [];
 
@@ -61,7 +68,7 @@ app.post("/register", async (req, res) => {
 
     res.status(201).json({
       message:
-        "User registered successfully. Please check your email to verify your account.",
+        "User registered successfully. \nTo finish registration please check your email to verify your account.",
     });
   } catch (error) {
     console.error(error);
@@ -75,21 +82,24 @@ app.get("/verify-email", async (req, res) => {
   try {
     // Find user with the verification token
     const [rows] = await pool.query(
-      "SELECT id FROM users WHERE verification_token = ?",
+      "SELECT id FROM users WHERE refresh_token = ?",
       [token]
     );
 
     if (rows.length === 0) {
-      return res
-        .status(400)
-        .json({ message: "Invalid or expired verification token" });
+      return (
+        res
+          .status(400)
+          // TODO: send html page
+          .json({ message: "Invalid or expired verification token" })
+      );
     }
 
     const userId = rows[0].id;
 
     // Update user's email_verified to true and remove the verification token
     await pool.query(
-      "UPDATE users SET email_verified = ?, verification_token = ? WHERE id = ?",
+      "UPDATE users SET email_verified = ?, refresh_token = ? WHERE id = ?",
       [true, null, userId]
     );
     // Send the HTML file on success
@@ -99,28 +109,6 @@ app.get("/verify-email", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-// app.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
-//   // Find user
-//   const user = users.find((user) => user.email === email);
-//   if (!user) return res.status(400).json({ message: "Invalid credentials" });
-//   // Check password
-//   const isValid = await bcrypt.compare(password, user.password);
-//   if (!isValid) return res.status(400).json({ message: "Invalid credentials" });
-
-//   // Generate tokens
-//   const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, {
-//     expiresIn: "15m",
-//   });
-//   const refreshToken = jwt.sign({ email }, process.env.REFRESH_TOKEN_SECRET);
-
-//   refreshTokens.push(refreshToken);
-
-//   res.json({ accessToken, refreshToken });
-// });
-
-// protected route
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -152,21 +140,21 @@ app.post("/login", async (req, res) => {
     // Generate tokens
     const accessToken = jwt.sign(
       { id: user.id, email: user.email },
-      ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
     const refreshToken = jwt.sign(
       { id: user.id, email: user.email },
-      REFRESH_TOKEN_SECRET
+      process.env.REFRESH_TOKEN_SECRET
     );
 
-    // Store refresh token in the database
-    await pool.query(
-      "INSERT INTO refresh_tokens (token, user_id) VALUES (?, ?)",
-      [refreshToken, user.id]
-    );
+    // Store refresh token in the users table
+    await pool.query("UPDATE users SET refresh_token = ? WHERE id = ?", [
+      refreshToken,
+      user.id,
+    ]);
 
-    res.json({ accessToken, refreshToken });
+    res.json({ accessToken, refreshToken, user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -174,11 +162,13 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/logout", async (req, res) => {
-  const { token } = req.body;
+  const { userId } = req.body;
 
   try {
-    // Delete refresh token from database
-    await pool.query("DELETE FROM refresh_tokens WHERE token = ?", [token]);
+    // Remove refresh token from users table
+    await pool.query("UPDATE users SET refresh_token = NULL WHERE id = ?", [
+      userId,
+    ]);
     res.sendStatus(204);
   } catch (error) {
     console.error(error);
@@ -188,6 +178,41 @@ app.post("/logout", async (req, res) => {
 
 app.get("/protected", verifyToken, (req, res) => {
   res.json({ message: `Hello, ${req.user.email}` });
+});
+
+app.post("/token", async (req, res) => {
+  const { userId } = req.body; // Or use email
+
+  try {
+    // Fetch the user and their refresh token from the database
+    const [rows] = await pool.query(
+      "SELECT refresh_token FROM users WHERE id = ?",
+      [userId]
+    );
+    const user = rows[0];
+
+    if (!user || !user.refresh_token) return res.sendStatus(403);
+
+    const refreshToken = user.refresh_token;
+
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      (err, decoded) => {
+        if (err) return res.sendStatus(403);
+
+        const newAccessToken = jwt.sign(
+          { id: userId, email: decoded.email },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: "15m" }
+        );
+        res.json({ accessToken: newAccessToken });
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
 });
 
 // verify token
