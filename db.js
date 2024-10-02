@@ -19,7 +19,7 @@ let pool;
     // Execute a query to retrieve data
     const connection = await pool.getConnection();
     const [rows] = await connection.execute("SELECT * FROM users");
-    console.log("Users:", rows);
+    // console.log("Users:", rows);
 
     // Close the connection
   } catch (error) {

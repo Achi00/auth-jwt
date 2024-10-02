@@ -80,28 +80,26 @@ app.get("/verify-email", async (req, res) => {
   const { token } = req.query;
 
   try {
-    // Find user with the verification token
+    // Corrected line: Use verification_token
     const [rows] = await pool.query(
-      "SELECT id FROM users WHERE refresh_token = ?",
+      "SELECT id FROM users WHERE verification_token = ?",
       [token]
     );
 
     if (rows.length === 0) {
-      return (
-        res
-          .status(400)
-          // TODO: send html page
-          .json({ message: "Invalid or expired verification token" })
-      );
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired verification token" });
     }
 
     const userId = rows[0].id;
 
-    // Update user's email_verified to true and remove the verification token
+    // Corrected line: Set verification_token to null after verification
     await pool.query(
-      "UPDATE users SET email_verified = ?, refresh_token = ? WHERE id = ?",
+      "UPDATE users SET email_verified = ?, verification_token = ? WHERE id = ?",
       [true, null, userId]
     );
+
     // Send the HTML file on success
     res.sendFile(path.join(__dirname, "./email.html"));
   } catch (error) {
