@@ -48,7 +48,9 @@ app.post("/register", async (req, res) => {
       email,
     ]);
     if (rows.length > 0) {
-      return res.status(400).json({ message: "User already exists" });
+      return res
+        .status(400)
+        .json({ message: "This email is already registered" });
     }
 
     // Hash password
@@ -123,7 +125,7 @@ app.post("/login", async (req, res) => {
     }
 
     // Check if email is verified
-    if (!user.email_verified) {
+    if (user.email_verified === 0) {
       return res
         .status(400)
         .json({ message: "Please verify your email before logging in" });
