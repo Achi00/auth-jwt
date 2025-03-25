@@ -13,18 +13,24 @@ let pool;
       connectionLimit: 10,
       queueLimit: 0,
     });
-
-    console.log("Connected to MySQL as app_user");
-
-    // Execute a query to retrieve data
-    const connection = await pool.getConnection();
-    const [rows] = await connection.execute("SELECT * FROM users");
-    // console.log("Users:", rows);
-
-    // Close the connection
   } catch (error) {
     console.error("Error connecting to MySQL:", error);
   }
 })();
 
-module.exports = pool;
+module.exports = {
+  query: async (sql, params) => {
+    return pool.query(sql, params);
+  },
+
+  executeQuery: async (query, params) => {
+    const connection = await pool.getConnection();
+    try {
+      const [rows] = await connection.execute(query, params);
+
+      return rows;
+    } finally {
+      connection.release();
+    }
+  },
+};
