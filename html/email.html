@@ -159,6 +159,7 @@
       footer {
         border-top: 1px solid var(--border);
         padding: 1.5rem 1rem;
+        margin-top: auto;
       }
 
       .footer-container {
@@ -166,7 +167,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 1.5rem;
         max-width: 1100px;
         margin: 0 auto;
         width: 100%;
@@ -187,15 +188,53 @@
         font-weight: 600;
       }
 
+      .links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+      }
+
+      .link-cards {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .link-cards a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--muted-foreground);
+        font-size: 0.875rem;
+        transition: color 0.2s ease;
+      }
+
+      .link-cards a:hover {
+        color: var(--foreground);
+      }
+
+      .link-cards svg {
+        width: 1rem;
+        height: 1rem;
+      }
+
       .copyright {
         text-align: center;
-        font-size: 0.875rem;
+        font-size: 0.75rem;
         color: var(--muted-foreground);
+        margin: 0;
       }
 
       @media (min-width: 768px) {
         .footer-container {
           flex-direction: row;
+        }
+
+        .links {
+          align-items: flex-end;
         }
       }
     </style>
@@ -259,6 +298,7 @@
       <div class="footer-container">
         <div class="footer-logo">
           <svg
+            class="footer-logo-icon"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -268,7 +308,6 @@
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="lucide lucide-shield"
           >
             <path
               d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
@@ -276,13 +315,77 @@
           </svg>
           <span class="footer-logo-text">SecureAuth</span>
         </div>
-        <p class="copyright">
-          &copy;
-          <script>
-            document.write(new Date().getFullYear());
-          </script>
-          SecureAuth. All rights reserved.
-        </p>
+        <div class="links">
+          <div class="link-cards">
+            <a href="/api">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              API
+            </a>
+            <a href="/contact">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"
+                />
+                <path d="M21 16v2a4 4 0 0 1-4 4h-5" />
+              </svg>
+              Contact
+            </a>
+            <a href="/terms">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                <path
+                  d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"
+                />
+                <line x1="9" y1="9" x2="10" y2="9" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+                <line x1="9" y1="17" x2="15" y2="17" />
+              </svg>
+              Terms
+            </a>
+          </div>
+          <p class="copyright">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            SecureAuth. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   </body>

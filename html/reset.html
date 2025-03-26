@@ -3,187 +3,522 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reset Your Password</title>
+    <title>Reset Your Password | SecureAuth</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #000000;
-        color: #ffffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+      :root {
+        /* Light theme by default */
+        --background: #ffffff;
+        --foreground: #020817;
+        --muted: #f1f5f9;
+        --muted-foreground: #64748b;
+        --border: #e2e8f0;
+        --primary: #0f172a;
+        --primary-foreground: #ffffff;
+        --card: #ffffff;
+        --card-foreground: #020817;
+        --destructive: #ef4444;
+        --destructive-foreground: #ffffff;
+        --success: #10b981;
+        --success-foreground: #ffffff;
+        --radius: 0.5rem;
+      }
+
+      * {
         margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      .container {
-        width: 600px;
-        text-align: center;
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--background);
+        color: var(--foreground);
+        line-height: 1.6;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        border-bottom: 1px solid var(--border);
+        background-color: var(--background);
+      }
+
+      .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 4rem;
+        padding: 1rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--foreground);
+      }
+
+      .logo-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .logo-text {
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
         justify-content: center;
         align-items: center;
+        padding: 3rem 1rem;
       }
+
+      .container {
+        text-align: center;
+        padding: 2rem;
+        max-width: 450px;
+        width: 100%;
+      }
+
+      .card {
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background-color: var(--card);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
       h1 {
-        font-size: 40px;
-        margin-bottom: 8px;
+        font-size: 1.875rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
       }
+
       p {
-        font-size: 14px;
-        color: #a0a0a0;
-        margin-bottom: 20px;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+        color: var(--muted-foreground);
       }
+
       form {
-        width: 400px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
         gap: 0.5rem;
       }
+
+      label {
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
       input {
-        width: 400px;
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #1a1a1a;
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background-color: var(--background);
+        color: var(--foreground);
+        font-size: 0.875rem;
+      }
+
+      input:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: -1px;
+      }
+
+      .button {
+        display: inline-block;
+        background-color: var(--primary);
+        color: var(--primary-foreground);
         border: none;
-        border-radius: 4px;
-        color: #ffffff;
-      }
-      button {
-        width: 420px;
-        padding: 10px;
-        background-color: #000;
-        border: 1px solid #bababa;
-        color: #ffffff;
-        border-radius: 10px;
         cursor: pointer;
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 10px;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: opacity 0.3s ease;
+        width: 100%;
       }
-      button:disabled {
-        background-color: #555;
+
+      .button:hover {
+        opacity: 0.9;
+      }
+
+      .button:disabled {
+        opacity: 0.5;
         cursor: not-allowed;
       }
-      .login-btn {
-        background-color: #d0fb51;
-        color: #000000;
-        font-weight: bold;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.8rem;
+
+      .button-outline {
+        background-color: transparent;
+        color: var(--foreground);
+        border: 1px solid var(--border);
       }
+
+      .button-outline:hover {
+        background-color: var(--muted);
+      }
+
       .login-wrapper {
         display: flex;
         align-items: center;
-        gap: 10px;
+        justify-content: center;
+        gap: 0.5rem;
       }
-      .terms {
-        font-size: 12px;
-        color: #a0a0a0;
-      }
-      a {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        gap: 0.8rem;
-        color: black;
-      }
+
       .error {
-        color: red;
-        font-size: 16px;
+        color: var(--destructive);
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
       }
+
       .success {
-        color: greenyellow;
-        font-size: 16px;
+        color: var(--success);
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
       }
-      /* if token is invalid */
+
       .message-container {
         text-align: center;
-        margin-top: 50px;
       }
 
       .error-title {
-        font-size: 2em;
-        margin-bottom: 10px;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--destructive);
       }
 
       .error-description {
-        color: #555;
-        font-size: 1.2em;
+        color: var(--muted-foreground);
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .terms {
+        font-size: 0.75rem;
+        color: var(--muted-foreground);
+        margin-top: 1rem;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background-color: var(--border);
+      }
+
+      .divider-text {
+        padding: 0 0.5rem;
+        color: var(--muted-foreground);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 1.5rem 1rem;
+        margin-top: auto;
+      }
+
+      .footer-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .footer-logo-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      .footer-logo-text {
+        font-weight: 600;
+      }
+
+      .links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+      }
+
+      .link-cards {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .link-cards a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--muted-foreground);
+        font-size: 0.875rem;
+        transition: color 0.2s ease;
+      }
+
+      .link-cards a:hover {
+        color: var(--foreground);
+      }
+
+      .link-cards svg {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .copyright {
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--muted-foreground);
+        margin: 0;
+      }
+
+      @media (min-width: 768px) {
+        .footer-container {
+          flex-direction: row;
+        }
+
+        .links {
+          align-items: flex-end;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="container" id="container">
-      <h1>Reset your password</h1>
-      <p>Enter your new password below</p>
-      <form id="reset-password-form">
-        <p class="error" id="error"></p>
-        <p class="success" id="success"></p>
-        <input
-          type="password"
-          id="password"
-          placeholder="New password"
-          required
-        />
-        <input
-          type="password"
-          id="confirmPassword"
-          placeholder="Confirm new password"
-          required
-        />
-        <button type="submit" id="submitButton">Reset Password</button>
-      </form>
-      <p>ALREADY HAVE AN ACCOUNT?</p>
-      <button class="login-btn" onclick="redirectTologin()">
-        <div class="login-wrapper">
+    <header>
+      <div class="header-container">
+        <a href="http://localhost:3000" class="logo">
           <svg
-            version="1.0"
             xmlns="http://www.w3.org/2000/svg"
-            width="17pt"
-            height="17pt"
-            viewBox="0 0 512.000000 512.000000"
-            preserveAspectRatio="xMidYMid meet"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-shield"
           >
-            <g
-              transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-              fill="#000000"
-              stroke="none"
-            >
-              <path
-                d="M2146 4869 c-62 -15 -153 -68 -197 -116 -22 -24 -55 -74 -72 -111
-l-32 -67 -3 -219 c-4 -265 0 -290 72 -361 103 -103 244 -100 339 5 57 64 67
-101 67 264 l0 136 1040 0 1040 0 0 -1840 0 -1840 -1040 0 -1040 0 0 136 c0
-163 -10 200 -67 264 -95 105 -236 108 -339 5 -72 -71 -76 -96 -72 -362 l3
--219 37 -76 c45 -91 103 -147 196 -191 l67 -32 1215 0 1215 0 67 32 c93 44
-151 100 196 191 l37 76 0 2015 0 2016 -32 67 c-44 93 -100 151 -191 196 l-76
-37 -1195 2 c-701 1 -1212 -3 -1235 -8z"
-              />
-              <path
-                d="M2733 3699 c-114 -21 -194 -117 -194 -234 0 -93 13 -112 299 -397
-l267 -268 -1329 0 c-1014 0 -1338 -3 -1370 -12 -86 -26 -166 -136 -166 -228 0
--92 80 -202 166 -228 32 -9 356 -12 1370 -12 l1329 0 -267 -267 c-177 -177
--272 -281 -283 -305 -21 -51 -19 -144 4 -193 23 -49 74 -99 123 -119 51 -22
-143 -20 193 3 27 13 199 179 531 512 521 524 514 516 514 609 0 93 7 85 -514
-608 -270 271 -503 500 -519 508 -40 21 -106 31 -154 23z"
-              />
-            </g>
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+            />
           </svg>
-          Log In
+          <span class="logo-text">SecureAuth</span>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <div class="container" id="container">
+        <div class="card">
+          <h1>Reset your password</h1>
+          <p>Enter your new password below</p>
+          <form id="reset-password-form">
+            <p class="error" id="error"></p>
+            <p class="success" id="success"></p>
+            <div class="form-group">
+              <label for="password">New password</label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your new password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm new password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm your new password"
+                required
+              />
+            </div>
+            <button type="submit" id="submitButton" class="button">
+              Reset Password
+            </button>
+          </form>
         </div>
-      </button>
-      <p class="terms">
-        By continuing, you agree to CodeRunner<br />Terms of Service, Privacy
-        Policy
-      </p>
-    </div>
+
+        <div class="divider">
+          <span class="divider-text">Already have an account?</span>
+        </div>
+
+        <button class="button button-outline" onclick="redirectToLogin()">
+          <div class="login-wrapper">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            Log In
+          </div>
+        </button>
+
+        <p class="terms">
+          By continuing, you agree to SecureAuth<br />
+          <a href="/terms">Terms of Service</a>,
+          <a href="/privacy">Privacy Policy</a>
+        </p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-logo">
+          <svg
+            class="footer-logo-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+            />
+          </svg>
+          <span class="footer-logo-text">SecureAuth</span>
+        </div>
+        <div class="links">
+          <div class="link-cards">
+            <a href="/api">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              API
+            </a>
+            <a href="/contact">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"
+                />
+                <path d="M21 16v2a4 4 0 0 1-4 4h-5" />
+              </svg>
+              Contact
+            </a>
+            <a href="/terms">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                <path
+                  d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"
+                />
+                <line x1="9" y1="9" x2="10" y2="9" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+                <line x1="9" y1="17" x2="15" y2="17" />
+              </svg>
+              Terms
+            </a>
+          </div>
+          <p class="copyright">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            SecureAuth. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
     <script type="module">
       const email = new URLSearchParams(window.location.search).get("email");
       const token = new URLSearchParams(window.location.search).get("token");
 
-      async function chackValidation() {
+      async function checkValidation() {
         try {
           const response = await fetch(
             "https://codeapi.wordcrafter.io//auth/validate-reset",
@@ -199,14 +534,15 @@ l267 -268 -1329 0 c-1014 0 -1338 -3 -1370 -12 -86 -26 -166 -136 -166 -228 0
           console.log(data.message);
           if (data.message === "Invalid or expired token") {
             document.getElementById("container").innerHTML = `
-    <div class="message-container">
-      <h1 class="error-title">Invalid or Expired Token</h1>
-      <p class="error-description">
-        It seems the token you are using is no longer valid or has already been used. 
-        Please request a new password reset if needed.
-      </p>
-    </div>
-  `;
+              <div class="card message-container">
+                <h1 class="error-title">Invalid or Expired Token</h1>
+                <p class="error-description">
+                  It seems the token you are using is no longer valid or has already been used. 
+                  Please request a new password reset if needed.
+                </p>
+                <button onclick="redirectToLogin()" class="button">Go to Login</button>
+              </div>
+            `;
             return;
           }
         } catch (error) {
@@ -218,7 +554,6 @@ l267 -268 -1329 0 c-1014 0 -1338 -3 -1370 -12 -86 -26 -166 -136 -166 -228 0
         .getElementById("reset-password-form")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
-          let loading;
           // Initialize the loading state
           const submitButton = document.getElementById("submitButton");
           //  get password
@@ -245,7 +580,9 @@ l267 -268 -1329 0 c-1014 0 -1338 -3 -1370 -12 -86 -26 -166 -136 -166 -228 0
 
           try {
             // Set loading state and disable the button
-            submitButton.textContent = "Loading...";
+            submitButton.disabled = true;
+            submitButton.textContent = "Resetting...";
+
             // Send the new password to the server
             const response = await fetch(
               "https://codeapi.wordcrafter.io/auth/reset-password",
@@ -259,18 +596,20 @@ l267 -268 -1329 0 c-1014 0 -1338 -3 -1370 -12 -86 -26 -166 -136 -166 -228 0
             );
 
             if (response.ok) {
-              document.getElementById("submitButton").disabled = true;
               document.getElementById("error").innerHTML = "";
-              loading = false;
               document.getElementById("success").innerHTML =
                 "Password reset successfully. You can now log in.";
               document.getElementById("password").style.display = "none";
               document.getElementById("confirmPassword").style.display = "none";
-              submitButton.style.display = "none";
+              document.getElementById("submitButton").style.display = "none";
+
+              // Show labels as well
+              document.querySelectorAll(".form-group").forEach((group) => {
+                group.style.display = "none";
+              });
             } else {
               const data = await response.json();
               document.getElementById("error").innerHTML = data.message;
-              loading = false;
             }
           } catch (error) {
             console.error("Error resetting password:", error);
@@ -283,10 +622,16 @@ l267 -268 -1329 0 c-1014 0 -1338 -3 -1370 -12 -86 -26 -166 -136 -166 -228 0
           }
         });
 
-      function redirectTologin() {
-        window.location.replace(`https://coderun.wordcrafter.io/login`);
+      function redirectToLogin() {
+        const clientUrl = window.location.origin; // Fallback if env variable isn't available
+        window.location.replace(`${clientUrl}/login`);
       }
-      await chackValidation();
+
+      // Make the redirectToLogin function globally available
+      window.redirectToLogin = redirectToLogin;
+
+      // Check token validation on page load
+      await checkValidation();
     </script>
   </body>
 </html>

@@ -3,114 +3,407 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Expired or Invalid Token</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <title>Expired or Invalid Token | SecureAuth</title>
     <style>
+      :root {
+        /* Light theme by default */
+        --background: #ffffff;
+        --foreground: #020817;
+        --muted: #f1f5f9;
+        --muted-foreground: #64748b;
+        --border: #e2e8f0;
+        --primary: #0f172a;
+        --primary-foreground: #ffffff;
+        --card: #ffffff;
+        --card-foreground: #020817;
+        --warning: #f59e0b;
+        --warning-foreground: #ffffff;
+        --radius: 0.5rem;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
         padding: 0;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           "Helvetica Neue", Arial, sans-serif;
-        background-color: black;
-        color: white;
+        background-color: var(--background);
+        color: var(--foreground);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        border-bottom: 1px solid var(--border);
+        background-color: var(--background);
+      }
+
+      .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 4rem;
+        padding: 1rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--foreground);
+      }
+
+      .logo-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .logo-text {
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+
+      main {
+        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        line-height: 1.6;
-      }
-
-      nav {
-        position: absolute;
-        top: 10px;
-        left: 25px;
+        padding: 3rem 1rem;
       }
 
       .container {
         text-align: center;
         padding: 2rem;
-        max-width: 400px;
-        width: 90%;
+        max-width: 450px;
+        width: 100%;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background-color: var(--card);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .icon-container {
+        background-color: var(--warning);
+        color: var(--warning-foreground);
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
       }
 
       .icon {
-        font-size: 4rem;
-        color: #d0fb51;
-        margin-bottom: 1rem;
+        width: 2rem;
+        height: 2rem;
       }
 
       h1 {
-        font-size: 2rem;
+        font-size: 1.875rem;
+        font-weight: bold;
         margin-bottom: 1rem;
+        line-height: 1.2;
       }
 
       p {
         font-size: 1rem;
         margin-bottom: 2rem;
-        color: #a0a0a0;
-      }
-
-      .home-button {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
+        color: var(--muted-foreground);
       }
 
       .button {
         display: inline-block;
-        background-color: #d0fb51;
-        color: black;
+        background-color: var(--primary);
+        color: var(--primary-foreground);
+        border: none;
         cursor: pointer;
         padding: 0.75rem 1.5rem;
-        border-radius: 5px;
-        border: none;
+        border-radius: var(--radius);
         text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: opacity 0.3s ease;
       }
 
       .button:hover {
-        background-color: #b8e046;
+        opacity: 0.9;
       }
 
-      @media (max-width: 480px) {
-        .container {
-          padding: 1rem;
+      .links {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .link-cards {
+        display: flex;
+        justify-content: space-between;
+        max-width: 100%;
+        padding-left: 25px;
+        padding-right: 25px;
+        gap: 15px;
+      }
+
+      .links a {
+        display: flex;
+        align-items: center;
+        /* text-decoration: none; */
+        color: black;
+        gap: 4px;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 1.5rem 1rem;
+        margin-top: auto;
+      }
+
+      .footer-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .footer-logo-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      .footer-logo-text {
+        font-weight: 600;
+      }
+
+      .links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+      }
+
+      .link-cards {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .link-cards a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--muted-foreground);
+        font-size: 0.875rem;
+        transition: color 0.2s ease;
+      }
+
+      .link-cards a:hover {
+        color: var(--foreground);
+      }
+
+      .link-cards svg {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .copyright {
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--muted-foreground);
+        margin: 0;
+      }
+
+      @media (min-width: 768px) {
+        .footer-container {
+          flex-direction: row;
         }
 
-        h1 {
-          font-size: 1.5rem;
-        }
-
-        p {
-          font-size: 0.9rem;
+        .links {
+          align-items: flex-end;
         }
       }
     </style>
   </head>
   <body>
-    <nav>
-      <button class="home-button" onclick="navigateToLoginPage()">
-        <img width="125px" src="../assets/logo.png" alt="logo" />
-      </button>
-    </nav>
-    <div class="container">
-      <i class="fas fa-exclamation-circle icon" aria-hidden="true"></i>
-      <h1>Expired or Invalid Token</h1>
-      <p>
-        We're sorry, but the validation token you're trying to use has either
-        expired or is invalid. This could be due to the token timing out or
-        being used already.
-      </p>
-      <button onclick="navigateToLoginPage()" class="button">Go Back</button>
-    </div>
+    <header>
+      <div class="header-container">
+        <a href="http://localhost:3000" class="logo">
+          <svg
+            class="logo-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+            />
+          </svg>
+          <span class="logo-text">SecureAuth</span>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="icon-container">
+          <svg
+            class="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <h1>Expired or Invalid Token</h1>
+        <p>
+          We're sorry, but the validation token you're trying to use has either
+          expired or is invalid. This could be due to the token timing out or
+          being used already.
+        </p>
+        <button onclick="navigateToLoginPage()" class="button">Go Back</button>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-logo">
+          <svg
+            class="footer-logo-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+            />
+          </svg>
+          <span class="footer-logo-text">SecureAuth</span>
+        </div>
+        <div class="links">
+          <div class="link-cards">
+            <a href="/api">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              API
+            </a>
+            <a href="/contact">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"
+                />
+                <path d="M21 16v2a4 4 0 0 1-4 4h-5" />
+              </svg>
+              Contact
+            </a>
+            <a href="/terms">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                <path
+                  d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"
+                />
+                <line x1="9" y1="9" x2="10" y2="9" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+                <line x1="9" y1="17" x2="15" y2="17" />
+              </svg>
+              Terms
+            </a>
+          </div>
+          <p class="copyright">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            SecureAuth. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function navigateToLoginPage() {
+        const clientUrl = window.location.origin; // Fallback if env variable isn't available
+        window.location.replace(`${clientUrl}/login`);
+      }
+    </script>
   </body>
-  <script>
-    function navigateToLoginPage() {
-      window.location.replace(`${process.env.CLIENT_URL}/login`);
-    }
-  </script>
 </html>
