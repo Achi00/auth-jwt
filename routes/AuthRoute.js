@@ -354,7 +354,7 @@ function verifyToken(req, res, next) {
 async function sendPasswordResetEmail(email) {
   const encryptedEmail = encryptEmail(email);
   const resetToken = generateResetToken();
-  const verificationLink = `${process.env.SERVER_URL}auth/reset-password?email=${encryptedEmail}&token=${resetToken}`;
+  const verificationLink = `${process.env.SERVER_URL}/auth/reset-password?email=${encryptedEmail}&token=${resetToken}`;
 
   // save token in database to watch its expiration time
   const expiresAt = new Date(Date.now() + 3600000); // Token valid for 1 hour
@@ -430,7 +430,7 @@ async function sendVerificationEmail(email, token) {
                               <div style="text-align: center; margin: 30px 0;">
                                   
                          
-             <a href="${verificationLink}" style="background-color: #D0FB51; color: #000; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; font-size: 16px;">Verify Email</a>
+             <a href="${verificationLink}" style="background-color: #fff; border: 1px solid black; color: #000; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 16px;">Verify Email</a>
                               </div>
                           </td>
                       </tr>
