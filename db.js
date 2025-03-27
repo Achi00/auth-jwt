@@ -13,6 +13,7 @@ let pool;
       connectionLimit: 10,
       queueLimit: 0,
     });
+    console.log("db pool created");
   } catch (error) {
     console.error("Error connecting to MySQL:", error);
   }

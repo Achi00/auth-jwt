@@ -521,7 +521,7 @@
       async function checkValidation() {
         try {
           const response = await fetch(
-            "http://localhost:8080/auth/validate-reset",
+            "https://auth-api.wordcrafter.io//auth/validate-reset",
             {
               method: "POST",
               headers: {
@@ -585,7 +585,7 @@
 
             // Send the new password to the server
             const response = await fetch(
-              "http://localhost:8080/auth/reset-password",
+              "https://auth-api.wordcrafter.io/auth/reset-password",
               {
                 method: "POST",
                 headers: {
