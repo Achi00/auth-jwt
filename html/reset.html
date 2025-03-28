@@ -583,9 +583,7 @@
           // check if url is still valid
 
           if (password !== confirmPassword) {
-            document.getElementById("error").innerHTML =
-              "Passwords do not match.";
-            console.log("Passwords do not match.");
+            showError("Passwords do not match.");
             return;
           }
 
@@ -608,7 +606,7 @@
 
             if (response.ok) {
               // document.getElementById("error").innerHTML = "";
-              data.message("");
+              showError("");
               document.getElementById("success").innerHTML =
                 "Password reset successfully. You can now log in.";
               document.getElementById("password").style.display = "none";
