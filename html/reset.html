@@ -192,7 +192,7 @@
       }
 
       .error {
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
         color: var(--destructive);
@@ -201,6 +201,10 @@
         height: 35px;
         font-size: 0.875rem;
         margin-bottom: 1rem;
+      }
+
+      .error.visible {
+        display: flex;
       }
 
       .success {
@@ -527,7 +531,7 @@
       async function checkValidation() {
         try {
           const response = await fetch(
-            "https://auth-api.wordcrafter.io//auth/validate-reset",
+            "https://auth-api.wordcrafter.io/auth/validate-reset",
             {
               method: "POST",
               headers: {
@@ -568,8 +572,9 @@
             document.getElementById("confirmPassword").value;
 
           if (!email) {
-            document.getElementById("error").innerHTML =
-              "Invalid or missing email.";
+            showError("Invalid or missing email.");
+            // document.getElementById("error").innerHTML =
+            //   "Invalid or missing email.";
             return;
           }
 
@@ -602,7 +607,8 @@
             );
 
             if (response.ok) {
-              document.getElementById("error").innerHTML = "";
+              // document.getElementById("error").innerHTML = "";
+              data.message("");
               document.getElementById("success").innerHTML =
                 "Password reset successfully. You can now log in.";
               document.getElementById("password").style.display = "none";
@@ -615,18 +621,31 @@
               });
             } else {
               const data = await response.json();
-              document.getElementById("error").innerHTML = data.message;
+              showError(data.message);
+              // document.getElementById("error").innerHTML = data.message;
             }
           } catch (error) {
             console.error("Error resetting password:", error);
-            document.getElementById("error").innerHTML =
-              "An error occurred. Please try again";
+            showError("An error occurred. Please try again");
           } finally {
             // Reset loading state and re-enable the button
             submitButton.disabled = false;
             submitButton.textContent = "Reset Password";
           }
         });
+
+      // helpers
+
+      function showError(message) {
+        const errorElement = document.getElementById("error");
+        if (message) {
+          errorElement.innerHTML = message;
+          errorElement.classList.add("visible");
+        } else {
+          errorElement.innerHTML = "";
+          errorElement.classList.remove("visible");
+        }
+      }
 
       function redirectToLogin() {
         const clientUrl = window.location.origin; // Fallback if env variable isn't available
