@@ -5,7 +5,8 @@ module.exports = {
       script: "index.js",
       instances: 1,
       autorestart: true,
-      watch: true,
+      watch: false,
+      ignore_watch: ["logs", "node_modules"],
       max_memory_restart: "1G",
       env: {
         NODE_ENV: "production",
@@ -14,9 +15,6 @@ module.exports = {
       error_file: "logs/err.log",
       out_file: "logs/out.log",
       time: true,
-      // Restart app if it reaches memory threshold
-      max_memory_restart: "400M",
-      // Restart on error
       exp_backoff_restart_delay: 100,
     },
   ],
