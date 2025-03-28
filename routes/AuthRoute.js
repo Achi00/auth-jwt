@@ -384,7 +384,7 @@ async function sendPasswordResetEmail(email) {
                               <div style="text-align: center; margin: 30px 0;">
                                   
                          
-             <a href="${verificationLink}" style="background-color: #D0FB51; color: #000; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; font-size: 16px;">Reset password</a>
+             <a href="${verificationLink}" style="background-color: #000; color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; font-size: 16px;">Reset password</a>
                               </div>
                           </td>
                       </tr>
