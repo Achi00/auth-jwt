@@ -417,7 +417,7 @@ async function sendVerificationEmail(email, token) {
       <table width="100%" cellpadding="0" cellspacing="0" style="min-width:100%;">
           <tr>
               <td width="100%" style="background-color: #f8f8f8; padding: 20px; text-align: center;">
-                  <img src="https://res.cloudinary.com/dle6xv667/image/upload/v1742907044/ImagineAI-1742906009998_undtom.png" alt="Company Logo" style="max-width: 150px;">
+                  <img src="../assets/logo.png" alt="Company Logo" style="max-width: 150px;">
               </td>
           </tr>
           <tr>
